@@ -4,6 +4,12 @@ import * as ReactDOM from 'react-dom/client';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 import * as serviceWorker from './serviceWorker';
+import { BrowserRouter, Route, Routes } from "react-router-dom";
+import ManageStore from './pages/ManageStore';
+import CreateAccount from './pages/CreateAccount';
+import ManageAccount from './pages/ManageAccount';
+import ManageErrorProduct from './pages/ManageErrorProduct';
+import Login from './pages/Login';
 
 const container = document.getElementById('root');
 const root = ReactDOM.createRoot(container);
@@ -11,7 +17,17 @@ const root = ReactDOM.createRoot(container);
 root.render(
   <StrictMode>
     <ColorModeScript />
-    <App />
+    <BrowserRouter>
+      <Routes>
+        <Route path='/' element={<App />} />
+        <Route path='/login' element={<Login />} />
+        <Route path='/create-account' element={<CreateAccount />} />
+        <Route path='/manage-account' element={<ManageAccount />} />
+        <Route path='/facility/manage-store' element={<ManageStore />} />
+        <Route path='/facility/manage-error-product' element={<ManageErrorProduct />} />
+      </Routes>
+    </BrowserRouter>
+
   </StrictMode>
 );
 
