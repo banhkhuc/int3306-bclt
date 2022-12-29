@@ -188,10 +188,10 @@ function ManageErrorProduct() {
                       onChange={handleChange}
                     />
                   </Th>
-                  <Th>Tên sản phẩm</Th>
-                  <Th>Số lượng</Th>
+                  <Th>Mã sản phẩm</Th>
+                  <Th>Dòng sản phẩm</Th>
                   <Th>Xuất cho đại lý</Th>
-                  <Th>Lỗi</Th>
+                  <Th>Trạng thái</Th>
                 </Tr>
               </Thead>
               <Tbody>
@@ -206,15 +206,15 @@ function ManageErrorProduct() {
                         <input
                           type="checkbox"
                           className="form-check-input"
-                          name={item.name}
+                          name={item.id}
                           checked={item?.isChecked}
                           onChange={handleChange}
                         />
                       </Td>
-                      <Td>{item.name}</Td>
-                      <Td>{item.quantity}</Td>
-                      <Td>{item.exportFor}</Td>
-                      <Td>{item.fault}</Td>
+                      <Td>{item.code}</Td>
+                    <Td>{item.productLineModel}</Td>
+                    <Td>{item.distributeId}</Td>
+                    <Td>{item.status}</Td>
                     </Tr>
                   ))
                 )}
