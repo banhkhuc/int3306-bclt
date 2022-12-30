@@ -1,52 +1,15 @@
-import { ChakraProvider, ColorModeScript, theme } from "@chakra-ui/react";
 import React, { StrictMode } from "react";
 import * as ReactDOM from "react-dom/client";
-import App from "./App";
 import reportWebVitals from "./reportWebVitals";
 import * as serviceWorker from "./serviceWorker";
-import { BrowserRouter, Route, Routes } from "react-router-dom";
-import ManageStore from "./pages/ManageStore";
-import CreateAccount from "./pages/CreateAccount";
-import ManageAccount from "./pages/ManageAccount";
-import { FactoryManagementPage, GuaranteeManagementPage } from "./pages";
-import ManageErrorProduct from "./pages/ManageErrorProduct";
-import Login from "./pages/Login";
-import { Stores } from "./stores";
-import ProductManagement from "./pages/ProductManagement";
-// import { DarkModeSwitch } from "../components/NavbarDarkmode";
-import SidebarWithHeader from "./components/SidebarWithHeader";
-import HomePage from "./pages/HomePage";
+import App from "./App";
 
 const container = document.getElementById("root");
 const root = ReactDOM.createRoot(container);
 
 root.render(
   <StrictMode>
-    <ChakraProvider theme={theme}>
-      <ColorModeScript />
-      <Stores>
-        <BrowserRouter>
-          <SidebarWithHeader>
-            <Routes>
-              <Route path="/login" element={<Login />} />
-              <Route path="/create-account" element={<CreateAccount />} />
-              <Route path="/manage-accounts" element={<ManageAccount />} />
-              <Route path="/manage-products" element={<ProductManagement />} />
-              <Route path="/facility/manage-store" element={<ManageStore />} />
-              <Route
-                path="/facility/manage-error-product"
-                element={<ManageErrorProduct />}
-              />
-              <Route
-                path="/manage-factory"
-                element={<FactoryManagementPage />}
-              />
-              <Route path="/guarantee" element={<GuaranteeManagementPage />} />
-            </Routes>
-          </SidebarWithHeader>
-        </BrowserRouter>
-      </Stores>
-    </ChakraProvider>
+    <App />
   </StrictMode>
 );
 

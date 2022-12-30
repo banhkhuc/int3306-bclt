@@ -34,7 +34,7 @@ import {
 } from "react-icons/fi";
 import { IconType } from "react-icons";
 import { ReactText } from "react";
-import { Link, useLocation } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 
 const LinkItems_Admin = [
   {
@@ -62,45 +62,59 @@ const LinkItems_Distribution_Agent = [
 ];
 
 const LinkItems_Service_Center = [
-  { name: "Quản lý bảo hành", href: "/guarantee" },
+  { name: "Quản lý bảo hành", href: "/manage-guarantee" },
   { name: "Quản lý thống kê", href: "" },
 ];
+
+const LinkItemsService = () => {
+  switch (sessionStorage.getItem("userRole")) {
+    case "admin":
+      return LinkItems_Admin;
+    case "produce":
+      return LinkItems_Production_Factory;
+    case "distribute":
+      return LinkItems_Distribution_Agent;
+    case "guarantee":
+      return LinkItems_Service_Center;
+    default:
+      return LinkItems_Admin;
+      break;
+  }
+};
 
 export default function SidebarWithHeader({ children }) {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const location = useLocation();
   return (
     <Box minH="100vh" bg={useColorModeValue("gray.100", "gray.900")}>
-      {
-        /*location.pathname === "/ || */ location.pathname === "/login" ? (
-          children
-        ) : (
-          <>
-            <SidebarContent
-              onClose={() => onClose}
-              display={{ base: "none", md: "block" }}
-            />
-            <Drawer
-              autoFocus={false}
-              isOpen={isOpen}
-              placement="left"
-              onClose={onClose}
-              returnFocusOnClose={false}
-              onOverlayClick={onClose}
-              size="full"
-            >
-              <DrawerContent>
-                <SidebarContent onClose={onClose} />
-              </DrawerContent>
-            </Drawer>
-            {/* mobilenav */}
-            <MobileNav onOpen={onOpen} />
-            <Box ml={{ base: 0, md: 60 }} p="4">
-              {children}
-            </Box>{" "}
-          </>
-        )
-      }
+      {location.pathname === "/" || location.pathname === "/login" ? (
+        children
+      ) : (
+        <>
+          <SidebarContent
+            onClose={() => onClose}
+            display={{ base: "none", md: "block" }}
+          />
+          <Drawer
+            autoFocus={false}
+            isOpen={isOpen}
+            placement="left"
+            onClose={onClose}
+            returnFocusOnClose={false}
+            onOverlayClick={onClose}
+            size="full"
+          >
+            <DrawerContent>
+              <SidebarContent onClose={onClose} />
+            </DrawerContent>
+          </Drawer>
+          {/* mobilenav */}
+          <MobileNav onOpen={onOpen} />
+          <Box ml={{ base: 0, md: 60 }} p="4">
+            {children}
+          </Box>{" "}
+        </>
+      )}
     </Box>
   );
 }
@@ -125,7 +139,7 @@ const SidebarContent = ({ onClose, ...rest }) => {
       </Flex>
 
       {/* LinkItems - actor */}
-      {LinkItems_Admin.map((link) => (
+      {LinkItemsService().map((link) => (
         <Link
           to={link.href}
           // style={{ textDecoration: "none" }}
@@ -163,6 +177,12 @@ const SidebarContent = ({ onClose, ...rest }) => {
 };
 
 const MobileNav = ({ onOpen, ...rest }) => {
+  let navigate = useNavigate();
+  const handleLogout = () => {
+    sessionStorage.removeItem("userRole");
+    navigate("/login");
+  };
+
   return (
     <Flex
       ml={{ base: 0, md: 60 }}
@@ -244,7 +264,7 @@ const MobileNav = ({ onOpen, ...rest }) => {
               <MenuItem>Profile</MenuItem>
               <MenuItem>Settings</MenuItem>
               <MenuDivider />
-              <MenuItem>Sign out</MenuItem>
+              <MenuItem onClick={handleLogout}>Sign out</MenuItem>
             </MenuList>
           </Menu>
         </Flex>

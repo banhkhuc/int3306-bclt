@@ -1,11 +1,11 @@
 import { useReducer, createContext, useCallback } from "react";
 
 const initialState = {
-  FacilityId: "",
-  facility: "",
-  account: "",
-  email: "",
-  fullName: "",
+  FacilityId: null,
+  type: null,
+  account: null,
+  email: null,
+  fullName: null,
 };
 
 export const UserContext = createContext(initialState);
@@ -25,6 +25,8 @@ const UserStore = ({ children }) => {
   }, []);
 
   const [userState, userDispatch] = useReducer(UserReducer, initialState);
+
+  console.log(userState);
 
   return (
     <UserContext.Provider value={[userState, userDispatch]}>
