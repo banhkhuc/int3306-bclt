@@ -13,6 +13,7 @@ import ManageErrorProduct from "./pages/ManageErrorProduct";
 import Login from "./pages/Login";
 import { Stores } from "./stores";
 import ProductManagement from "./pages/ProductManagement";
+import { DarkModeSwitch } from "./components/NavbarDarkmode";
 
 const container = document.getElementById("root");
 const root = ReactDOM.createRoot(container);
@@ -24,7 +25,7 @@ root.render(
       <Stores>
         <BrowserRouter>
           <Routes>
-            <Route path="/" element={<App />} />
+            <Route path="/" element={<Login />} />
             <Route path="/login" element={<Login />} />
             <Route path="/create-account" element={<CreateAccount />} />
             <Route path="/manage-account" element={<ManageAccount />} />
