@@ -46,7 +46,7 @@ import {
 import { useNavigate } from "react-router-dom";
 
 const productData = [
-    
+
 ];
 
 const ProductManagement = () => {
@@ -148,9 +148,11 @@ const ProductManagement = () => {
                     <form className="input-form">
                         <Stack direction="row" spacing={4}>
                             <Select
+                                borderColor='gray'
                                 placeholder="Thêm điều kiện lọc"
                                 style={{
                                     marginRight: "20px",
+                                    color: "black"
                                 }}
                                 p={1}
                             >
@@ -159,15 +161,16 @@ const ProductManagement = () => {
                                 <option value="option3">Option 3</option>
                             </Select>
 
-                            <InputGroup className="input-comp">
+                            <InputGroup className="input-comp" borderColor='gray'>
                                 <InputLeftElement
                                     pointerEvents="none"
-                                    children={<SearchIcon color="gray.300" className="icon" />}
+                                    children={<SearchIcon color="black" className="icon" />}
                                 />
                                 <Input
                                     type="text"
+                                    color="black"
                                     placeholder="Tìm kiếm"
-                                    style={{ marginTop: "4px", marginBottom: "2px" }}
+                                    style={{ marginTop: "4px", marginBottom: "2px", color: "black" }}
                                 />
                             </InputGroup>
                         </Stack>
