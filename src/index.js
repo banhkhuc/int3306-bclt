@@ -13,7 +13,9 @@ import ManageErrorProduct from "./pages/ManageErrorProduct";
 import Login from "./pages/Login";
 import { Stores } from "./stores";
 import ProductManagement from "./pages/ProductManagement";
-import { DarkModeSwitch } from "./components/NavbarDarkmode";
+// import { DarkModeSwitch } from "../components/NavbarDarkmode";
+import SidebarWithHeader from "./components/SidebarWithHeader";
+import HomePage from "./pages/HomePage";
 
 const container = document.getElementById("root");
 const root = ReactDOM.createRoot(container);
@@ -24,20 +26,24 @@ root.render(
       <ColorModeScript />
       <Stores>
         <BrowserRouter>
-          <Routes>
-            <Route path="/" element={<Login />} />
-            <Route path="/login" element={<Login />} />
-            <Route path="/create-account" element={<CreateAccount />} />
-            <Route path="/manage-account" element={<ManageAccount />} />
-            <Route path="/manage-products" element={<ProductManagement />} />
-            <Route path="/facility/manage-store" element={<ManageStore />} />
-            <Route
-              path="/facility/manage-error-product"
-              element={<ManageErrorProduct />}
-            />
-            <Route path="/manage-factory" element={<FactoryManagementPage />} />
-            <Route path="/guarantee" element={<GuaranteeManagementPage />} />
-          </Routes>
+          <SidebarWithHeader>
+            <Routes>
+              <Route path="/login" element={<Login />} />
+              <Route path="/create-account" element={<CreateAccount />} />
+              <Route path="/manage-accounts" element={<ManageAccount />} />
+              <Route path="/manage-products" element={<ProductManagement />} />
+              <Route path="/facility/manage-store" element={<ManageStore />} />
+              <Route
+                path="/facility/manage-error-product"
+                element={<ManageErrorProduct />}
+              />
+              <Route
+                path="/manage-factory"
+                element={<FactoryManagementPage />}
+              />
+              <Route path="/guarantee" element={<GuaranteeManagementPage />} />
+            </Routes>
+          </SidebarWithHeader>
         </BrowserRouter>
       </Stores>
     </ChakraProvider>
