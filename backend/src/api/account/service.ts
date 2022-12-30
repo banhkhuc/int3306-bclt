@@ -1,5 +1,5 @@
 import bcrypt from 'bcrypt';
-import { User } from 'databases/models';
+import { Facility, User } from 'databases/models';
 import ResponeCodes from 'utils/constants/ResponeCode';
 import { generateAccount, generatePassword, generateToken } from 'utils/helpers/generate';
 import { sendRegisterEmail } from 'utils/helpers/email';
@@ -10,7 +10,8 @@ const verifyAccount = async (account: string) => {
 	const user = await User.findOne({
 		where: {
 			account
-		}
+		},
+		include: Facility
 	});
 	return user;
 };
