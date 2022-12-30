@@ -25,3 +25,5 @@ export const GET_ALL_PRODUCTS = `${DOMAIN_URL}/produce/all`
 export const GET_ALL_ERROR_PRODUCTS = `${DOMAIN_URL}/produce/all-error`
 
 export const CREATE_ACCOUNT_URL = `${DOMAIN_URL}/account/create`
+
+export const GUARANTEE_URL = `${DOMAIN_URL}/guarantee`;
