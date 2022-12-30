@@ -14,8 +14,8 @@ const FactoryManagementTopBar = () => {
       <Button
         flex={["100%", "none"]}
         leftIcon={<Icon color={"white"} as={HiPlus} fontSize={"1.5rem"} />}
-        colorScheme={"blue"}
-        color={"white"}
+        // colorScheme={"blue"}
+        // color={"white"}
         variant={"solid"}
         onClick={() => setIsEditFactory(true)}
       >

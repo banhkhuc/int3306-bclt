@@ -134,7 +134,7 @@ const ManageAccount = () => {
           </h2>
           <Button
             leftIcon={<AddIcon />}
-            colorScheme="blue"
+            // colorScheme="blue"
             variant="solid"
             style={{ marginRight: "20px" }}
             onClick={handleClick}
@@ -145,7 +145,7 @@ const ManageAccount = () => {
         <Box
           p={4}
           style={{
-            backgroundColor: "white",
+            // backgroundColor: "white",
             marginBottom: "10px",
             marginTop: "10px",
             borderRadius: "10px",
@@ -157,7 +157,7 @@ const ManageAccount = () => {
                 placeholder="Thêm điều kiện lọc"
                 style={{
                   marginRight: "20px",
-                  color: "black",
+                  // color: "black",
                   border: "1px solid black",
                 }}
                 p={1}
@@ -187,7 +187,6 @@ const ManageAccount = () => {
 
           <TableContainer className="table">
             <Table variant="simple">
-              <TableCaption>Imperial to metric conversion factors</TableCaption>
               <Thead>
                 <Tr>
                   <Th>
@@ -210,7 +209,7 @@ const ManageAccount = () => {
               </Thead>
               <Tbody>
                 {accounts === undefined ? (
-                  <p style={{ color: "black" }}>There is no accounts.</p>
+                  <p>There is no accounts.</p>
                 ) : (
                   accounts.map((item, index) => (
                     <Tr key={index}>

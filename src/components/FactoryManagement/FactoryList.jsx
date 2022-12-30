@@ -189,7 +189,7 @@ const FactoryList = ({ factories }) => {
                     </Button>
                   </Flex>
                 </Th>
-                <Th fontWeight={800}>Hình ảnh</Th>
+                <Th fontWeight={800}>Ảnh</Th>
                 <Th fontWeight={800}>Tên cơ sở</Th>
                 <Th fontWeight={800}>Địa chỉ</Th>
               </Tr>

@@ -34,10 +34,9 @@ import {
 } from "react-icons/fi";
 import { IconType } from "react-icons";
 import { ReactText } from "react";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 
 const LinkItems_Admin = [
-  { name: "Trang chủ", icon: FiHome, href: "" },
   {
     name: "Quản lý mục sản phẩm",
     href: "/manage-products",
@@ -51,52 +50,57 @@ const LinkItems_Admin = [
 ];
 
 const LinkItems_Production_Factory = [
-  { name: "Trang chủ", icon: FiHome, href: "" },
-  { name: "Quản lý kho", href: "" },
-  { name: "Quản lý sản phẩm lỗi", href: "" },
+  { name: "Quản lý kho", href: "facility/manage-store" },
+  { name: "Quản lý sản phẩm lỗi", href: "/facility/manage-error-product" },
   { name: "Quản lý thống kê", href: "" },
 ];
 
 const LinkItems_Distribution_Agent = [
-  { name: "Trang chủ", icon: FiHome, href: "" },
   { name: "Quản lý kho", href: "" },
   { name: "Quản lý bảo hành", href: "" },
   { name: "Quản lý thống kê", href: "" },
 ];
 
 const LinkItems_Service_Center = [
-  { name: "Trang chủ", icon: FiHome, href: "" },
-  { name: "Quản lý bảo hành", href: "" },
-  { name: "Quản lý sản phẩm lỗi", href: "" },
+  { name: "Quản lý bảo hành", href: "/guarantee" },
   { name: "Quản lý thống kê", href: "" },
 ];
 
 export default function SidebarWithHeader({ children }) {
   const { isOpen, onOpen, onClose } = useDisclosure();
+  const location = useLocation();
   return (
     <Box minH="100vh" bg={useColorModeValue("gray.100", "gray.900")}>
-      <SidebarContent
-        onClose={() => onClose}
-        display={{ base: "none", md: "block" }}
-      />
-      <Drawer
-        autoFocus={false}
-        isOpen={isOpen}
-        placement="left"
-        onClose={onClose}
-        returnFocusOnClose={false}
-        onOverlayClick={onClose}
-        size="full"
-      >
-        <DrawerContent>
-          <SidebarContent onClose={onClose} />
-        </DrawerContent>
-      </Drawer>
-      {/* mobilenav */}
-      <MobileNav onOpen={onOpen} />
-      <Box ml={{ base: 0, md: 60 }} p="4">
-        {children}
-      </Box>
+      {
+        /*location.pathname === "/ || */ location.pathname === "/login" ? (
+          children
+        ) : (
+          <>
+            <SidebarContent
+              onClose={() => onClose}
+              display={{ base: "none", md: "block" }}
+            />
+            <Drawer
+              autoFocus={false}
+              isOpen={isOpen}
+              placement="left"
+              onClose={onClose}
+              returnFocusOnClose={false}
+              onOverlayClick={onClose}
+              size="full"
+            >
+              <DrawerContent>
+                <SidebarContent onClose={onClose} />
+              </DrawerContent>
+            </Drawer>
+            {/* mobilenav */}
+            <MobileNav onOpen={onOpen} />
+            <Box ml={{ base: 0, md: 60 }} p="4">
+              {children}
+            </Box>{" "}
+          </>
+        )
+      }
     </Box>
   );
 }
