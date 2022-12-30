@@ -27,7 +27,7 @@ root.render(
             <Route path="/" element={<App />} />
             <Route path="/login" element={<Login />} />
             <Route path="/create-account" element={<CreateAccount />} />
-            <Route path="/manage-account" element={<ManageAccount />} />
+            <Route path="/manage-accounts" element={<ManageAccount />} />
             <Route path="/manage-products" element={<ProductManagement />} />
             <Route path="/facility/manage-store" element={<ManageStore />} />
             <Route
