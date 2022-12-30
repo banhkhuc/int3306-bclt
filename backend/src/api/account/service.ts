@@ -1,12 +1,10 @@
 import bcrypt from 'bcrypt';
-import LoginPayLoad from './LoginPayload';
-import { User, UserCode } from 'databases/models';
+import { User } from 'databases/models';
 import ResponeCodes from 'utils/constants/ResponeCode';
-import { generateAccount, generateCode, generatePassword, generateToken } from 'utils/helpers/generate';
-import CreatePayload from './CreatePayload';
-import { sendForgotEmail, sendRegisterEmail, sendResetEmail } from 'utils/helpers/email';
-import ForgotPayLoad from './ForgotPayload';
+import { generateAccount, generatePassword, generateToken } from 'utils/helpers/generate';
+import { sendRegisterEmail } from 'utils/helpers/email';
 import sequelize from 'databases';
+import { CreatePayload, LoginPayLoad } from 'utils/payload';
 
 const verifyAccount = async (account: string) => {
 	const user = await User.findOne({
@@ -118,115 +116,4 @@ const login = async (loginData: LoginPayLoad) => {
 	}
 };
 
-const sendCode = async (account: string) => {
-	try {
-		if (!account) {
-			return {
-				message: 'Invalid account.',
-				status: ResponeCodes.BAD_REQUEST
-			};
-		} else {
-			const user = await verifyAccount(account);
-			if (user) {
-				const { code, expires } = generateCode();
-				await UserCode.create({
-					account,
-					code,
-					expires
-				});
-				sendForgotEmail(user.email, code);
-
-				return {
-					message: 'Send code successfully!',
-					status: ResponeCodes.CREATED
-				};
-			} else {
-				return {
-					message: 'Account not exsist.',
-					status: ResponeCodes.OK
-				};
-			}
-		}
-	} catch (error) {
-		throw error;
-	}
-};
-
-const verifyCode = async (forgotData: ForgotPayLoad) => {
-	try {
-		const { account, code } = forgotData;
-
-		if (!account || !code) {
-			return {
-				data: false,
-				message: 'Invalid email or code',
-				status: ResponeCodes.BAD_REQUEST
-			};
-		} else {
-			const forgottenUser = await UserCode.findOne({
-				where: {
-					account,
-					code
-				}
-			});
-			if (forgottenUser) {
-				if (forgottenUser.expires < new Date(Date.now())) {
-					return {
-						data: false,
-						message: 'Expired code!',
-						status: ResponeCodes.OK
-					};
-				} else {
-					return {
-						data: true,
-						message: 'Verify code successfully!',
-						status: ResponeCodes.OK
-					};
-				}
-			} else {
-				return {
-					data: false,
-					message: 'Incorrect code!',
-					status: ResponeCodes.OK
-				};
-			}
-		}
-	} catch (error) {
-		throw error;
-	}
-};
-
-const resetPassword = async (account: string) => {
-	try {
-		if (!account) {
-			return {
-				message: 'Invalid account or password',
-				status: ResponeCodes.BAD_REQUEST
-			};
-		} else {
-			const password = generatePassword();
-			const hashPassword = bcrypt.hashSync(password, 10);
-
-			const user = await User.findOne({
-				where: {
-					account
-				}
-			});
-
-			await user.update({
-				password: hashPassword
-			});
-
-			sendResetEmail(user.email, password);
-
-			return {
-				message: 'Reset password successfully!',
-				status: ResponeCodes.OK
-			};
-		}
-	} catch (error) {
-		throw error;
-	}
-};
-
-export { createAccount, login, sendCode, verifyCode, resetPassword };
+export { createAccount, login };

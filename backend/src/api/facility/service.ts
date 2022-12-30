@@ -1,11 +1,11 @@
 import { Request } from 'express';
 import ResponeCodes from 'utils/constants/ResponeCode';
-import FacilityPayLoad from './FacilityPayload';
 import paginate from 'utils/helpers/pagination';
 import { Op } from 'sequelize';
 import { Facility, User } from 'databases/models';
 import { FacilityModel } from 'databases/models/Facility';
 import FacilityType from 'utils/constants/FacilityType';
+import { FacilityPayload } from 'utils/payload';
 
 const getFacilities = async (req: Request) => {
 	try {
@@ -43,7 +43,7 @@ const getAllFacilities = async (req: Request) => {
 			};
 		}
 		const facilities = await Facility.findAll({
-			where: whereFacility,
+			where: whereFacility
 		});
 		return facilities;
 	} catch (error) {
@@ -92,7 +92,7 @@ const addFacility = async (req: Request) => {
 		let message: string;
 		let status: number;
 
-		const newFacility: FacilityPayLoad = req.body;
+		const newFacility: FacilityPayload = req.body;
 
 		if (
 			!newFacility.name ||

@@ -48,7 +48,6 @@ const User = sequelize.define<UserModel>(
 		},
 		email: {
 			allowNull: false,
-			unique: true,
 			type: DataTypes.STRING
 		},
 		createdAt: {

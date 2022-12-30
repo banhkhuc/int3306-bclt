@@ -4,11 +4,10 @@ import paginate from 'utils/helpers/pagination';
 import { Facility, Product, ProductLine, Statistics } from 'databases/models';
 import { ProductModel } from 'databases/models/Product';
 import ProductStatus from 'utils/constants/ProductStatus';
-import ImportPayLoad from './ImportPayload';
-import ExportPayload from './ExportPayload';
 import { generateProductCode } from 'utils/helpers/generate';
 import FacilityType from 'utils/constants/FacilityType';
 import { Op } from 'sequelize';
+import { ImportPayLoad, ExportPayload } from 'utils/payload';
 
 const getProducts = async (req: Request) => {
 	try {
@@ -23,6 +22,7 @@ const getProducts = async (req: Request) => {
 					[Op.like]: `%${query}%`
 				}
 			},
+			include: ProductLine,
 			offset,
 			limit,
 			order: [order]

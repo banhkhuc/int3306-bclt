@@ -2,11 +2,11 @@ import bcrypt from 'bcrypt';
 import { Request } from 'express';
 import { Facility, User } from 'databases/models';
 import ResponeCodes from 'utils/constants/ResponeCode';
-import UserInfo from './UserInfo';
+
 import paginate from 'utils/helpers/pagination';
 import { Op } from 'sequelize';
 import { UserModel } from 'databases/models/User';
-import FacilityInfo from './FacilityInfo';
+import { FacilityInfo, UserInfo } from 'utils/payload';
 
 const getUsers = async (req: Request) => {
 	try {
@@ -263,4 +263,14 @@ const deleteUser = async (req: Request) => {
 	}
 };
 
-export { getUsers, getUserById, deleteUser, changeInfo, changeFacilityInfo, changePassword, verifyPassword, checkNewPassword, getMe };
+export {
+	getUsers,
+	getUserById,
+	deleteUser,
+	changeInfo,
+	changeFacilityInfo,
+	changePassword,
+	verifyPassword,
+	checkNewPassword,
+	getMe
+};

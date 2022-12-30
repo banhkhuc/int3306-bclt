@@ -59,7 +59,6 @@ const Product = sequelize.define<ProductModel>(
 		},
 		status: {
 			allowNull: false,
-			defaultValue: false,
 			type: DataTypes.STRING
 		},
 		createdAt: {

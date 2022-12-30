@@ -1,9 +1,9 @@
 import { Request } from 'express';
 import { ProductLine } from 'databases/models';
 import ResponeCodes from 'utils/constants/ResponeCode';
-import ProductLinePayload from './ProductLines';
 import paginate from 'utils/helpers/pagination';
 import { Op } from 'sequelize';
+import { ProductLinePayload } from 'utils/payload';
 
 const getProductLine = async (req: Request) => {
 	try {

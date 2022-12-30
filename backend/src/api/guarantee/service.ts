@@ -4,21 +4,26 @@ import paginate from 'utils/helpers/pagination';
 import { Facility, Insurance, Product, ProductLine } from 'databases/models';
 import { ProductModel } from 'databases/models/Product';
 import ProductStatus from 'utils/constants/ProductStatus';
-import ExportProducePayload from './ExportProducePayload';
-import ExportDistributePayload from './ExportDistributePayload';
 import FacilityType from 'utils/constants/FacilityType';
 import sequelize from 'databases';
 import { Op } from 'sequelize';
+import { ExportDistributePayload, ExportProducePayload } from 'utils/payload';
 
 const getProducts = async (req: Request) => {
 	try {
 		const { offset, limit, order } = paginate(req);
-		const distributeId = req.user.Facility.id;
+		const guaranteeId = req.user.Facility.id;
 
-		const products = await Product.findAndCountAll({
+		const products = await Insurance.findAndCountAll({
 			where: {
-				distributeId,
-				status: ProductStatus.GUARANTING
+				guaranteeId
+			},
+			include: {
+				model: Product,
+				where: {
+					status: ProductStatus.GUARANTING
+				},
+				include: [ProductLine]
 			},
 			offset,
 			limit,
