@@ -3,16 +3,6 @@ import * as service from './service';
 import { ApiResponse } from 'utils/rest/ApiResponse';
 import ResponeCodes from 'utils/constants/ResponeCode';
 
-const getStatisticsFacilityById = async (req: Request, res: Response) => {
-	try {
-		const result = await service.getStatisticsDacilityById(req);
-		const { data, message, status } = result;
-		return new ApiResponse(data, message, status).send(res);
-	} catch (error) {
-		return new ApiResponse(error.message, "Couldn't get ProductLine.", ResponeCodes.ERROR).send(res);
-	}
-};
-
 const getStatisticsProduce = async (req: Request, res: Response) => {
 	try {
 		const result = await service.getStatisticsProduce(req);
@@ -33,9 +23,9 @@ const getStatisticsDistribute = async (req: Request, res: Response) => {
 	}
 };
 
-const getStatisticsguarantee = async (req: Request, res: Response) => {
+const getStatisticsGuarantee = async (req: Request, res: Response) => {
 	try {
-		const result = await service.getStatisticsguarantee(req);
+		const result = await service.getStatisticsGuarantee(req);
 		const { data, message, status } = result;
 		return new ApiResponse(data, message, status).send(res);
 	} catch (error) {
@@ -43,9 +33,9 @@ const getStatisticsguarantee = async (req: Request, res: Response) => {
 	}
 };
 
-const getStatisticsDacilityProductLineById = async (req: Request, res: Response) => {
+const getStatisticsFacilityById = async (req: Request, res: Response) => {
 	try {
-		const result = await service.getStatisticsDacilityProductLineById(req);
+		const result = await service.getStatisticsDacilityById(req);
 		const { data, message, status } = result;
 		return new ApiResponse(data, message, status).send(res);
 	} catch (error) {
@@ -53,41 +43,4 @@ const getStatisticsDacilityProductLineById = async (req: Request, res: Response)
 	}
 };
 
-const getStatisticsProduceProductLineById = async (req: Request, res: Response) => {
-	try {
-		const result = await service.getStatisticsProduceProductLineById(req);
-		const { data, message, status } = result;
-		return new ApiResponse(data, message, status).send(res);
-	} catch (error) {
-		return new ApiResponse(error.message, "Couldn't get ProductLine.", ResponeCodes.ERROR).send(res);
-	}
-};
-
-const getStatisticsDistributeProductLineById = async (req: Request, res: Response) => {
-	try {
-		const result = await service.getStatisticsDistributeProductLineById(req);
-		const { data, message, status } = result;
-		return new ApiResponse(data, message, status).send(res);
-	} catch (error) {
-		return new ApiResponse(error.message, "Couldn't get ProductLine.", ResponeCodes.ERROR).send(res);
-	}
-};
-
-const getStatisticsguaranteeProductLineById = async (req: Request, res: Response) => {
-	try {
-		const result = await service.getStatisticsguaranteeProductLineById(req);
-		const { data, message, status } = result;
-		return new ApiResponse(data, message, status).send(res);
-	} catch (error) {
-		return new ApiResponse(error.message, "Couldn't get ProductLine.", ResponeCodes.ERROR).send(res);
-	}
-};
-
-export {
-	getStatisticsDacilityProductLineById,
-	getStatisticsProduceProductLineById,
-	getStatisticsDistributeProductLineById,
-	getStatisticsguaranteeProductLineById
-};
-
-export { getStatisticsFacilityById, getStatisticsProduce, getStatisticsDistribute, getStatisticsguarantee };
+export {getStatisticsProduce, getStatisticsDistribute, getStatisticsGuarantee,  getStatisticsFacilityById };
