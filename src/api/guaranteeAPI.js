@@ -26,7 +26,6 @@ export const getGuaranteeProductLineAPI = async () => {
   const response = await axios
     .get(`${GUARANTEE_URL}/all`, options)
     .then((res) => {
-      console.log("products", res.data);
       return res.data;
     })
     .catch((err) => {
