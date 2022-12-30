@@ -47,16 +47,21 @@ const FactoryList = ({ factories }) => {
 
   const handleSelectTypeSearch = (e) => {
     if (e.target.value === "all") {
-      setFilterFactories(factories);
+      factories && setFilterFactories(factories);
     }
     setTypeSearch(e.target.value);
   };
 
   const handleSearch = () => {
+    if (!factories) {
+      return;
+    }
+
     if (typeSearch === "all") {
       setFilterFactories(factories);
       return;
     }
+
     if (input.current) {
       const query = input.current.value.toUpperCase();
       const newFilterFactories = factories.filter((factory) =>
@@ -160,47 +165,51 @@ const FactoryList = ({ factories }) => {
           <option value="address">Địa chỉ</option>
         </Select>
       </Flex>
-      <TableContainer>
-        <Table variant="simple">
-          <Thead>
-            <Tr>
-              <Th p={"0 0 0 24px"}>
-                <Flex minH={"32px"}>
-                  <Checkbox
-                    isChecked={allChecked}
-                    onChange={(e) => handleAllChecked(e)}
-                  />
-                  <Button
-                    visibility={isCheckedItem ? "visible" : "hidden"}
-                    colorScheme={"red"}
-                    size={"sm"}
-                    ml={"12px"}
-                    onClick={debounceDelete(handleDelete, 200)}
-                  >
-                    Xóa
-                  </Button>
-                </Flex>
-              </Th>
-              <Th fontWeight={800}>Hình ảnh</Th>
-              <Th fontWeight={800}>Tên cơ sở</Th>
-              <Th fontWeight={800}>Địa chỉ</Th>
-            </Tr>
-          </Thead>
-          <Tbody>
-            {filterFactories &&
-              filterFactories.map((factory, index) => {
-                return (
-                  <FactoryItem
-                    key={index}
-                    {...{ checkedItems, setCheckedItems }}
-                    index={index}
-                    {...factory}
-                  />
-                );
-              })}
-          </Tbody>
-        </Table>
-      </TableContainer>
+      {factories && factories.length === 0 ? (
+        "Hiện tại chưa có cơ sở nào"
+      ) : (
+        <TableContainer>
+          <Table variant="simple">
+            <Thead>
+              <Tr>
+                <Th p={"0 0 0 24px"}>
+                  <Flex minH={"32px"}>
+                    <Checkbox
+                      isChecked={allChecked}
+                      onChange={(e) => handleAllChecked(e)}
+                    />
+                    <Button
+                      visibility={isCheckedItem ? "visible" : "hidden"}
+                      colorScheme={"red"}
+                      size={"sm"}
+                      ml={"12px"}
+                      onClick={debounceDelete(handleDelete, 200)}
+                    >
+                      Xóa
+                    </Button>
+                  </Flex>
+                </Th>
+                <Th fontWeight={800}>Hình ảnh</Th>
+                <Th fontWeight={800}>Tên cơ sở</Th>
+                <Th fontWeight={800}>Địa chỉ</Th>
+              </Tr>
+            </Thead>
+            <Tbody>
+              {filterFactories &&
+                filterFactories.map((factory, index) => {
+                  return (
+                    <FactoryItem
+                      key={index}
+                      {...{ checkedItems, setCheckedItems }}
+                      index={index}
+                      {...factory}
+                    />
+                  );
+                })}
+            </Tbody>
+          </Table>
+        </TableContainer>
+      )}
     </Box>
   );
 };

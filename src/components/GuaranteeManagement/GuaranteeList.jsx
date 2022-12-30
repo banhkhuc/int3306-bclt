@@ -18,20 +18,22 @@ import { BsSearch } from "react-icons/bs";
 import { MdSend } from "react-icons/md";
 import { GuaranteeContext } from "../../stores";
 import GuaranteeItem from "./GuaranteeItem";
+import Report from "../Report";
 
 const GuaranteeList = () => {
   const [guaranteeProducts, getGuaranteeProducts] =
     useContext(GuaranteeContext);
   const [filterGuaranteeProducts, setFilterGuaranteeProducts] = useState();
+
   const [typeSearch, setTypeSearch] = useState("name");
   const input = useRef(null);
 
-  // useEffect(() => {
-  //   getGuaranteeProducts();
-  // }, []);
+  useEffect(() => {
+    getGuaranteeProducts();
+  }, []);
 
   useEffect(() => {
-    guaranteeProducts && handleSearch();
+    handleSearch();
   }, [guaranteeProducts]);
 
   const handleSelectTypeSearch = (e) => {
@@ -42,6 +44,9 @@ const GuaranteeList = () => {
   };
 
   const handleSearch = () => {
+    if (!guaranteeProducts) {
+      return;
+    }
     if (typeSearch === "all") {
       setFilterGuaranteeProducts(guaranteeProducts);
       return;
@@ -67,8 +72,9 @@ const GuaranteeList = () => {
 
   return (
     <Box mt={"12px"}>
-      <Flex>
-        <InputGroup flex={4}>
+      <Report />
+      <Flex mb={"12px"} wrap={"wrap"}>
+        <InputGroup flex={["100%", 4]}>
           <InputLeftElement
             pointerEvents="none"
             children={<BsSearch color="gray.300" />}
@@ -92,8 +98,9 @@ const GuaranteeList = () => {
           </InputRightElement>
         </InputGroup>
         <Select
-          flex={1}
-          ml={"8px"}
+          flex={["100%", 4, 2, 1]}
+          ml={[0, "8px"]}
+          mt={["8px", 0]}
           borderRadius={"5px"}
           onChange={handleSelectTypeSearch}
         >
@@ -102,30 +109,34 @@ const GuaranteeList = () => {
           <option value="guarantee">Trung tâm bảo hành</option>
         </Select>
       </Flex>
-      <TableContainer>
-        <Table variant={"striped"} colorScheme={"teal"}>
-          <Thead>
-            <Tr fontWeight={800}>
-              <Th>Số Serial</Th>
-              <Th>Tên sản phẩm</Th>
-              <Th>Ngày sản xuất</Th>
-              <Th>Ngày tiếp nhận</Th>
-              <Th>Thời gian bảo hành</Th>
-              <Th>Trung tâm bảo hành</Th>
-              {/* <Th>Đại lý phân phối</Th> */}
-              <Th>Loại lỗi</Th>
-              <Th>Trạng thái</Th>
-              <Th>Xử lý</Th>
-            </Tr>
-          </Thead>
-          <Tbody>
-            {filterGuaranteeProducts &&
-              filterGuaranteeProducts.map((guaranteeProduct, index) => {
-                return <GuaranteeItem key={index} {...guaranteeProduct} />;
-              })}
-          </Tbody>
-        </Table>
-      </TableContainer>
+      {filterGuaranteeProducts &&
+        (filterGuaranteeProducts.length === 0 ? (
+          "Hiện tại không có sản phẩm nào được bảo hành"
+        ) : (
+          <TableContainer>
+            <Table variant={"striped"} colorScheme={"teal"}>
+              <Thead>
+                <Tr fontWeight={800}>
+                  <Th>Số Serial</Th>
+                  <Th>Tên sản phẩm</Th>
+                  <Th>Ngày sản xuất</Th>
+                  <Th>Ngày tiếp nhận</Th>
+                  <Th>Thời gian bảo hành</Th>
+                  <Th>Trung tâm bảo hành</Th>
+                  {/* <Th>Đại lý phân phối</Th> */}
+                  <Th>Loại lỗi</Th>
+                  <Th>Trạng thái</Th>
+                  <Th>Xử lý</Th>
+                </Tr>
+              </Thead>
+              <Tbody>
+                {filterGuaranteeProducts.map((guaranteeProduct, index) => {
+                  return <GuaranteeItem key={index} {...guaranteeProduct} />;
+                })}
+              </Tbody>
+            </Table>
+          </TableContainer>
+        ))}
     </Box>
   );
 };
