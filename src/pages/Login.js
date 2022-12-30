@@ -1,4 +1,4 @@
-// import React from 'react';
+// import React from "react";
 // import {
 //   Flex,
 //   Heading,
@@ -9,11 +9,11 @@
 //   Switch,
 //   useColorMode,
 //   useColorModeValue,
-// } from '@chakra-ui/react';
+// } from "@chakra-ui/react";
 
 // const Login = () => {
 //   const { toggleColorMode } = useColorMode();
-//   const formBackground = useColorModeValue('gray.100', 'gray.700');
+//   const formBackground = useColorModeValue("gray.100", "gray.700");
 
 //   return (
 //     <Flex h="100vh" alignItems="center" justifyContent="center">
@@ -25,12 +25,7 @@
 //         boxShadow="lg"
 //       >
 //         <Heading mb={6}>BC LAPTOP</Heading>
-//         <Input
-//           placeholder="Nhập email"
-//           type="email"
-//           variant="filled"
-//           mb={3}
-//         />
+//         <Input placeholder="Nhập email" type="email" variant="filled" mb={3} />
 //         <Input
 //           placeholder="Nhập mật khẩu"
 //           type="password"
@@ -57,8 +52,7 @@
 // };
 
 // export default Login;
-
-import { useState } from "react";
+import { useContext, useState } from "react";
 import {
   Flex,
   Heading,
@@ -76,26 +70,45 @@ import {
   InputRightElement,
   ChakraProvider,
   FormErrorMessage,
-  Alert,
-  AlertIcon,
-  AlertTitle,
-  AlertDescription,
 } from "@chakra-ui/react";
 import { FaUserAlt, FaLock } from "react-icons/fa";
 import { loginApi } from "../api/accountApi";
 import { useFormik } from "formik";
 import * as yup from "yup";
 import { useNavigate } from "react-router-dom";
+// import { UserContext } from "../stores";
 
 const CFaUserAlt = chakra(FaUserAlt);
 const CFaLock = chakra(FaLock);
 
 const Login = () => {
   const [showPassword, setShowPassword] = useState(false);
-
+  // const [userState, userDispatch] = useContext(UserContext);
   const handleShowClick = () => setShowPassword(!showPassword);
 
   let navigate = useNavigate();
+
+  const handleNavigate = () => {
+    switch (sessionStorage.getItem("userRole")) {
+      case "admin":
+        navigate("/manage-accounts");
+        break;
+      case "produce":
+        navigate("/facility/manage-store");
+        break;
+      case "distribute":
+        // navigate("/manage-accounts");
+        break;
+      case "guarantee":
+        navigate("/manage-guarantee");
+        break;
+      default:
+        break;
+    }
+  };
+
+  handleNavigate();
+
   const handleSubmit = (values) => {
     const login = async (data) => {
       const response = await loginApi(data);
@@ -103,10 +116,18 @@ const Login = () => {
       const type = typeof response;
 
       if (response.status === 200) {
-        console.log("login success", response);
-        console.log("token", response.data.token);
+        // console.log("login success", response);
+        // console.log("token", response.data.token);
         localStorage.setItem("token", response.data.token);
-        setTimeout(navigate("/manage-accounts"), 2000);
+        const {
+          Facility: { type },
+        } = response.data.user;
+        sessionStorage.setItem("userRole", type);
+        // userDispatch({
+        //   type: "login",
+        //   payload: { FacilityId, type, account, email, fullName },
+        // });
+        setTimeout(() => handleNavigate(type), 2000);
       } else if (response.status === 404) {
         console.log("login error", response);
       }
