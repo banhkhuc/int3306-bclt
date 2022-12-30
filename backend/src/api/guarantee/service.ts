@@ -1,7 +1,7 @@
 import { Request } from 'express';
 import ResponeCodes from 'utils/constants/ResponeCode';
 import paginate from 'utils/helpers/pagination';
-import { Facility, Insurance, Product, ProductLine } from 'databases/models';
+import { Facility, Insurance, Product, ProductLine, Statistics } from 'databases/models';
 import { ProductModel } from 'databases/models/Product';
 import ProductStatus from 'utils/constants/ProductStatus';
 import FacilityType from 'utils/constants/FacilityType';
@@ -89,8 +89,8 @@ const exportDistribute = async (req: Request) => {
 
 		const guaranteeId = req.user.Facility.id;
 		const exportDistributeData: ExportDistributePayload = req.body;
-		const insurance = await verifyInsurance(exportDistributeData.productCode, guaranteeId);
 
+		const insurance = await verifyInsurance(exportDistributeData.productCode, guaranteeId);
 		if (!insurance || insurance.Product.status !== ProductStatus.GUARANTING) {
 			message = 'Invalid product.';
 			status = ResponeCodes.BAD_REQUEST;
@@ -98,6 +98,39 @@ const exportDistribute = async (req: Request) => {
 			await insurance.Product.update({
 				status: ProductStatus.SOLD
 			});
+			let product = await Product.findOne({where:{code: insurance.productCode}});
+			let produceId = insurance.guaranteeId;
+			var d = new Date();
+			let month = d.getMonth() + 1;
+			let t;
+			if (month < 10) {
+				t = d.getFullYear() + '/' + '0' + month;
+			} else {
+				t = d.getFullYear() + '/' + month;
+			}
+			let s = await Statistics.findOne({
+				where: { time: t, facilityId: produceId, productLineModel: product.productLineModel }
+			});
+			if (s == null) {
+				let statistic = await Statistics.findAll({
+					where: { facilityId: produceId, productLineModel: product.productLineModel },
+					order: [['createdAt', 'DESC']]
+				});
+				let w = 0;
+				if (statistic[0] != null) w = statistic[0].work + 1;
+				let new_statistic = await Statistics.create({
+					time: t,
+					warehouse: 0,
+					work: w,
+					facilityId: produceId,
+					productLineModel: product.productLineModel
+				});
+			} else {
+				s.work++;
+				s.warehouse--;
+				await s.save();
+			}
+
 			message = 'Export distribute successfully!';
 			status = ResponeCodes.OK;
 		}
@@ -146,6 +179,37 @@ const exportProduce = async (req: Request) => {
 					{ transaction }
 				);
 				await transaction.commit();
+				let product = await Product.findOne({where:{code: insurance.productCode}});
+				var d = new Date();
+				let month = d.getMonth() + 1;
+				let t;
+				if (month < 10) {
+					t = d.getFullYear() + '/' + '0' + month;
+				} else {
+					t = d.getFullYear() + '/' + month;
+				}
+				let s = await Statistics.findOne({
+					where: { time: t, facilityId: produceId, productLineModel: product.productLineModel }
+				});
+				if (s == null) {
+					let statistic = await Statistics.findAll({
+						where: { facilityId: produceId, productLineModel: product.productLineModel },
+						order: [['createdAt', 'DESC']]
+					});
+					let w = 0;
+					if (statistic[0] != null) w = statistic[0].work + 1;
+					let new_statistic = await Statistics.create({
+						time: t,
+						warehouse: 0,
+						work: w,
+						facilityId: produceId,
+						productLineModel: product.productLineModel
+					});
+				} else {
+					s.work++;
+					s.warehouse--;
+					await s.save();
+				}
 				message = 'Export produce successfully!';
 				status = ResponeCodes.OK;
 			}
