@@ -11,7 +11,7 @@ const GuaranteeStore = ({ children }) => {
   const getGuaranteeProducts = useCallback(async () => {
     const res = await getGuaranteeProductsAPI();
     if (res.status === 200) {
-      console.log(res.data.rows);
+      console.log("guarantee api", res.data.rows);
       setGuaranteeProducts(res.data.rows);
     } else {
       toast({
