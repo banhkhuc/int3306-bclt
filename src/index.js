@@ -13,7 +13,6 @@ import ManageErrorProduct from "./pages/ManageErrorProduct";
 import Login from "./pages/Login";
 import { Stores } from "./stores";
 import ProductManagement from "./pages/ProductManagement";
-import { DarkModeSwitch } from "./components/NavbarDarkmode";
 
 const container = document.getElementById("root");
 const root = ReactDOM.createRoot(container);
