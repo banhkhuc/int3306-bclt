@@ -37,7 +37,12 @@ const login = async (loginData: LoginPayLoad) => {
 					const token = generateToken(facility.id);
 					return {
 						data: {
-							facility,
+							account_info: {
+								name: facility.name,
+								imageURL: facility.imageUrl,
+								email: facility.email,
+								type: facility.type
+							},
 							token
 						},
 						message: 'Login successfully!',
