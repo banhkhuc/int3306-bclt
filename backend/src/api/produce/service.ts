@@ -12,7 +12,7 @@ import { ImportPayLoad, ExportPayload } from 'utils/payload';
 const getProducts = async (req: Request) => {
 	try {
 		const { offset, limit, order, query } = paginate(req);
-		const produceId = req.user.Facility.id;
+		const produceId = req.facility.id;
 
 		const products = await Product.findAndCountAll({
 			where: {
@@ -37,7 +37,7 @@ const getProducts = async (req: Request) => {
 const getErrorProducts = async (req: Request) => {
 	try {
 		const { offset, limit, order, query } = paginate(req);
-		const produceId = req.user.Facility.id;
+		const produceId = req.facility.id;
 
 		const products = await Product.findAndCountAll({
 			where: {
@@ -100,7 +100,7 @@ const importProduct = async (req: Request) => {
 		let status: number;
 
 		const importData: ImportPayLoad = req.body;
-		const produceId = req.user.Facility.id;
+		const produceId = req.facility.id;
 
 		if (!importData.productLineModel) {
 			message = 'Invalid payload.';

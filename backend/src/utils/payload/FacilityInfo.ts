@@ -1,7 +1,8 @@
 interface FacilityInfo {
     name: string;
-    address: string;
-    imageUrl: string;
+	email: string;
+	imageUrl: string;
+    password: string;
 }
 
 export default FacilityInfo;

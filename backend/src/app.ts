@@ -9,12 +9,12 @@ dotenv.config();
 import sequelize from 'databases';
 import 'databases/models';
 import router from 'api';
-import { UserModel } from 'databases/models/User';
+import { FacilityModel } from 'databases/models/Facility';
 
 declare global {
 	namespace Express {
 		interface Request {
-			user: UserModel;
+			facility: FacilityModel;
 		}
 	}
 }

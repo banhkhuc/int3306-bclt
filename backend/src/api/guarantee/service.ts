@@ -12,7 +12,7 @@ import { ExportDistributePayload, ExportProducePayload } from 'utils/payload';
 const getProducts = async (req: Request) => {
 	try {
 		const { offset, limit, order } = paginate(req);
-		const guaranteeId = req.user.Facility.id;
+		const guaranteeId = req.facility.id;
 
 		const products = await Insurance.findAndCountAll({
 			where: {
@@ -87,7 +87,7 @@ const exportDistribute = async (req: Request) => {
 		let message: string;
 		let status: number;
 
-		const guaranteeId = req.user.Facility.id;
+		const guaranteeId = req.facility.id;
 		const exportDistributeData: ExportDistributePayload = req.body;
 
 		const insurance = await verifyInsurance(exportDistributeData.productCode, guaranteeId);
@@ -98,7 +98,7 @@ const exportDistribute = async (req: Request) => {
 			await insurance.Product.update({
 				status: ProductStatus.SOLD
 			});
-			let product = await Product.findOne({where:{code: insurance.productCode}});
+			let product = await Product.findOne({ where: { code: insurance.productCode } });
 			let produceId = insurance.guaranteeId;
 			var d = new Date();
 			let month = d.getMonth() + 1;
@@ -152,7 +152,7 @@ const exportProduce = async (req: Request) => {
 		let message: string;
 		let status: number;
 
-		const guaranteeId = req.user.Facility.id;
+		const guaranteeId = req.facility.id;
 		const exportProduceData: ExportProducePayload = req.body;
 		const { productCode, produceId } = exportProduceData;
 		const insurance = await verifyInsurance(exportProduceData.productCode, guaranteeId);
@@ -179,7 +179,7 @@ const exportProduce = async (req: Request) => {
 					{ transaction }
 				);
 				await transaction.commit();
-				let product = await Product.findOne({where:{code: insurance.productCode}});
+				let product = await Product.findOne({ where: { code: insurance.productCode } });
 				var d = new Date();
 				let month = d.getMonth() + 1;
 				let t;

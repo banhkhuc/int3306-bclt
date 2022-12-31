@@ -1,4 +1,3 @@
-import CreatePayload from './CreatePayload';
 import ExportDistributePayload from './ExportDistributePayload';
 import ExportGuaranteePayload from './ExportGuaranteePayload';
 import ExportOrderPayload from './ExportOrderPayload';
@@ -10,10 +9,8 @@ import ImportPayLoad from './ImportPayload';
 import ImportProductPayload from './ImportProductPayload';
 import LoginPayLoad from './LoginPayload';
 import ProductLinePayload from './ProductLinePayload';
-import UserInfo from './UserInfo';
 
 export {
-	CreatePayload,
 	ExportDistributePayload,
 	ExportGuaranteePayload,
 	ExportOrderPayload,
@@ -24,6 +21,5 @@ export {
 	ImportPayLoad,
 	ImportProductPayload,
 	LoginPayLoad,
-	ProductLinePayload,
-	UserInfo
+	ProductLinePayload
 };

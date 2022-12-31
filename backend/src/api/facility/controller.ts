@@ -31,13 +31,13 @@ const getFacility = async (req: Request, res: Response) => {
 	}
 };
 
+// POST: /
 const addFacility = async (req: Request, res: Response) => {
 	try {
-		const result = await service.addFacility(req);
-		const { data, message, status } = result;
-		return new ApiResponse(data, message, status).send(res);
+		const result = await service.addFacility(req.body);
+		return new ApiResponse(result.data, result.message, result.status).send(res);
 	} catch (error) {
-		return new ApiResponse(error.message, "Couldn't add facility.", ResponeCodes.ERROR).send(res);
+		return new ApiResponse(error.message, "Couldn't create account.", ResponeCodes.ERROR).send(res);
 	}
 };
 
@@ -51,4 +51,14 @@ const deleteFacility = async (req: Request, res: Response) => {
 	}
 };
 
-export { getFacilities, getAllFacilities, getFacility, addFacility, deleteFacility };
+const changeFacilityInfo = async (req: Request, res: Response) => {
+	try {
+		const result = await service.changeFacilityInfo(req);
+		const { data, message, status } = result;
+		return new ApiResponse(data, message, status).send(res);
+	} catch (error) {
+		return new ApiResponse(error.message, "Couldn't update info.", ResponeCodes.ERROR).send(res);
+	}
+};
+
+export { getFacilities, getAllFacilities, getFacility, addFacility, deleteFacility, changeFacilityInfo };

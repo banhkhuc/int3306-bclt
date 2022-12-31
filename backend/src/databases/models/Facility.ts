@@ -4,7 +4,9 @@ import sequelize from 'databases';
 export interface FacilityModel extends Model<InferAttributes<FacilityModel>, InferCreationAttributes<FacilityModel>> {
 	id: CreationOptional<number>;
 	name: string;
-	address: string;
+	account: string;
+	password: string;
+	email: string;
 	imageUrl: string;
 	type: string;
 	createdAt: CreationOptional<Date>;
@@ -24,7 +26,16 @@ const Facility = sequelize.define<FacilityModel>(
 			allowNull: false,
 			type: DataTypes.STRING
 		},
-		address: {
+		account: {
+			allowNull: false,
+			unique: true,
+			type: DataTypes.STRING
+		},
+		password: {
+			allowNull: false,
+			type: DataTypes.STRING
+		},
+		email: {
 			type: DataTypes.STRING
 		},
 		imageUrl: {
