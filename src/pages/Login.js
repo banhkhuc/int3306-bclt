@@ -1,57 +1,3 @@
-// import React from "react";
-// import {
-//   Flex,
-//   Heading,
-//   Input,
-//   Button,
-//   FormControl,
-//   FormLabel,
-//   Switch,
-//   useColorMode,
-//   useColorModeValue,
-// } from "@chakra-ui/react";
-
-// const Login = () => {
-//   const { toggleColorMode } = useColorMode();
-//   const formBackground = useColorModeValue("gray.100", "gray.700");
-
-//   return (
-//     <Flex h="100vh" alignItems="center" justifyContent="center">
-//       <Flex
-//         flexDirection="column"
-//         bg={formBackground}
-//         p={12}
-//         borderRadius={8}
-//         boxShadow="lg"
-//       >
-//         <Heading mb={6}>BC LAPTOP</Heading>
-//         <Input placeholder="Nhập email" type="email" variant="filled" mb={3} />
-//         <Input
-//           placeholder="Nhập mật khẩu"
-//           type="password"
-//           variant="filled"
-//           mb={6}
-//         />
-//         <Button colorScheme="teal" mb={8}>
-//           Đăng nhập
-//         </Button>
-//         <FormControl display="flex" alignItems="center">
-//           <FormLabel htmlFor="dark_mode" mb="0">
-//             Dark Mode?
-//           </FormLabel>
-//           <Switch
-//             id="dark_mode"
-//             colorScheme="teal"
-//             size="lg"
-//             onChange={toggleColorMode}
-//           />
-//         </FormControl>
-//       </Flex>
-//     </Flex>
-//   );
-// };
-
-// export default Login;
 import { useContext, useState } from "react";
 import {
   Flex,
@@ -165,7 +111,7 @@ const Login = () => {
         flexDirection="column"
         width="100wh"
         height="100vh"
-        backgroundColor="gray.200"
+        backgroundColor="blue.800"
         justifyContent="center"
         alignItems="center"
       >
@@ -175,13 +121,12 @@ const Login = () => {
           justifyContent="center"
           alignItems="center"
         >
-          <Avatar bg="teal.500" />
-          <Heading color="teal.400">Welcome</Heading>
+          <Heading mb={6} color="blackAlpha.800">BC LAPTOP</Heading>
           <Box minW={{ base: "90%", md: "468px" }}>
             <Stack
               spacing={4}
               p="1rem"
-              backgroundColor="whiteAlpha.900"
+              backgroundColor="blackAlpha.600"
               boxShadow="md"
             >
               <FormControl isInvalid={formik.errors.account}>
@@ -237,7 +182,7 @@ const Login = () => {
                 borderRadius={0}
                 type="submit"
                 variant="solid"
-                colorScheme="teal"
+                colorScheme="telegram"
                 width="full"
                 onClick={formik.handleSubmit}
               >
@@ -246,12 +191,6 @@ const Login = () => {
             </Stack>
           </Box>
         </Stack>
-        <Box>
-          New to us?{" "}
-          <Link color="teal.500" href="#">
-            Sign Up
-          </Link>
-        </Box>
       </Flex>
     </ChakraProvider>
   );
