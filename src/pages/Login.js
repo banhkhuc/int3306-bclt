@@ -16,6 +16,7 @@ import {
   InputRightElement,
   ChakraProvider,
   FormErrorMessage,
+  Image,
 } from "@chakra-ui/react";
 import { FaUserAlt, FaLock } from "react-icons/fa";
 import { loginApi } from "../api/accountApi";
@@ -103,91 +104,96 @@ const Login = () => {
 
   return (
     <ChakraProvider>
-      <Flex
-        flexDirection="column"
-        width="100wh"
-        height="100vh"
-        backgroundColor="blue.800"
-        justifyContent="center"
-        alignItems="center"
-      >
-        <Stack
-          flexDir="column"
-          mb="2"
+      <Stack minH={'100vh'} direction={{ base: 'column', md: 'row' }}>
+        <Flex flex={1}>
+          <Image src="https://d3kqdc25i4tl0t.cloudfront.net/articles/content/525_687896_sales.hero.jpg"  
+          objectFit="cover"></Image>
+        </Flex>
+
+        <Flex
+          flex={1}
+          flexDirection="columb"
+          width="100wh"
+          height="100vh"
+          backgroundColor="blueAlpha.600"
           justifyContent="center"
-          alignItems="center"
+          alignItem="center"
         >
-          <Heading mb={6} color="blackAlpha.800">BC LAPTOP</Heading>
-          <Box minW={{ base: "90%", md: "468px" }}>
-            <Stack
-              spacing={4}
-              p="1rem"
-              backgroundColor="blackAlpha.600"
-              boxShadow="md"
-            >
-              <FormControl isInvalid={formik.errors.account}>
-                <InputGroup>
-                  <InputLeftElement
-                    pointerEvents="none"
-                    children={<CFaUserAlt color="gray.300" />}
-                  />
-                  <Input
-                    name="account"
-                    type="email"
-                    placeholder="Nhập email"
-                    style={{
-                      color: "black",
-                      border: "1px solid black",
-                    }}
-                    onChange={formik.handleChange}
-                    value={formik.values.account}
-                  />
-                </InputGroup>
-                <FormErrorMessage>{formik.errors.account}</FormErrorMessage>
-              </FormControl>
-              <FormControl isInvalid={formik.errors.password}>
-                <InputGroup>
-                  <InputLeftElement
-                    pointerEvents="none"
-                    color="gray.300"
-                    children={<CFaLock color="gray.300" />}
-                  />
-                  <Input
-                    type={showPassword ? "text" : "password"}
-                    name="password"
-                    style={{
-                      color: "black",
-                      border: "1px solid black",
-                    }}
-                    onChange={formik.handleChange}
-                    value={formik.values.password}
-                    placeholder="Nhập mật khẩu"
-                  />
-                  <InputRightElement width="4.5rem">
-                    <Button h="1.75rem" size="sm" onClick={handleShowClick}>
-                      {showPassword ? "Ẩn" : "Hiện"}
-                    </Button>
-                  </InputRightElement>
-                </InputGroup>
-                <FormErrorMessage>{formik.errors.password}</FormErrorMessage>
-                <FormHelperText textAlign="right">
-                  <Link>Quên mật khẩu?</Link>
-                </FormHelperText>
-              </FormControl>
-              <Button
-                borderRadius={0}
-                type="submit"
-                variant="solid"
-                colorScheme="telegram"
-                width="full"
-                onClick={formik.handleSubmit}
+          <Stack
+            flexDir="column"
+            mb="2"
+            justifyContent="center"
+            alignItems="center"
+          >
+            <Heading mb="56px" color="whiteAlpha.900">PRODUCTION MOVE</Heading>
+            <Box minW={{ base: "90%", md: "468px" }}>
+              <Stack
+                spacing={4}
+                p="1rem"
+                backgroundColor="gray.50"
+                boxShadow="md"
               >
-                Đăng nhập
-              </Button>
-            </Stack>
-          </Box>
-        </Stack>
-      </Flex>
+                <FormControl isInvalid={formik.errors.account}>
+                  <InputGroup>
+                    <InputLeftElement
+                      pointerEvents="none"
+                      children={<CFaUserAlt color="gray.500" />}
+                    />
+                    <Input
+                      name="account"
+                      type="email"
+                      placeholder="Nhập email"
+                      style={{
+                        color: "black",
+                        border: "1px solid black",
+                      }}
+                      onChange={formik.handleChange}
+                      value={formik.values.account}
+                    />
+                  </InputGroup>
+                  {/* <FormErrorMessage>{formik.errors.account}</FormErrorMessage> */}
+                </FormControl>
+                <FormControl isInvalid={formik.errors.password}>
+                  <InputGroup>
+                    <InputLeftElement
+                      pointerEvents="none"
+                      color="gray.500"
+                      children={<CFaLock color="gray.500" />}
+                    />
+                    <Input
+                      type={showPassword ? "text" : "password"}
+                      name="password"
+                      style={{
+                        color: "black",
+                        border: "1px solid black",
+                      }}
+                      onChange={formik.handleChange}
+                      value={formik.values.password}
+                      placeholder="Nhập mật khẩu"
+                    />
+                    <InputRightElement width="4.5rem">
+                      <Button color="gray.500" h="1.75rem" size="sm" onClick={handleShowClick}>
+                        {showPassword ? "Ẩn" : "Hiện"}
+                      </Button>
+                    </InputRightElement>
+                  </InputGroup>
+                  {/* <FormErrorMessage>{formik.errors.password}</FormErrorMessage> */}
+                </FormControl>
+                <Button
+                  borderRadius={0}
+                  type="submit"
+                  variant="solid"
+                  colorScheme="telegram"
+                  width="full"
+                  onClick={formik.handleSubmit}
+                >
+                  Đăng nhập
+                </Button>
+              </Stack>
+            </Box>
+          </Stack>
+        </Flex>
+      </Stack>
     </ChakraProvider>
   );
 };
