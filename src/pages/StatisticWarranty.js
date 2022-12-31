@@ -165,7 +165,7 @@ const data_year = {
 
 
 
-export default function ChartTemplate() {
+export default function StatisticWarranty() {
   const [optionValue, setOptionValue]= useState('option1')
 
   function changeChart(event) {

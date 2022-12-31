@@ -10,7 +10,7 @@ import {
 } from "@chakra-ui/react";
 import { IoIosOptions } from "react-icons/io";
 import { useCallback, useContext } from "react";
-import { ReportContext } from "../../stores";
+import { ReportContext, UserContext } from "../../stores";
 
 const GuaranteeItem = ({
   Product,
@@ -27,6 +27,7 @@ const GuaranteeItem = ({
 
   const distribute_date = getDate(Product.createdAt);
   const guaranteeDate = getDate(insuranceDate);
+  const userState = useContext(UserContext);
 
   return (
     <Tr>
@@ -49,7 +50,7 @@ const GuaranteeItem = ({
         <Box whiteSpace={"normal"}>Nhà máy Hà nội</Box>
       </Th> */}
       <Th>
-        <Box whiteSpace={"normal"}>FPT Shop</Box>
+        <Box whiteSpace={"normal"}>{userState.fullName}</Box>
       </Th>
       <Th>
         <Box whiteSpace={"normal"}>{error}</Box>

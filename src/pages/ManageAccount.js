@@ -101,20 +101,6 @@ const ManageAccount = () => {
 
   return (
     <div className="">
-      <h1
-        style={{
-          marginTop: "10px",
-          marginBottom: "10px",
-          display: "flex",
-          alignItems: "center",
-          justifyContent: "center",
-          fontWeight: "700",
-          fontSize: "36px",
-        }}
-      >
-        Manage Accounts
-      </h1>
-
       <ChakraProvider>
         <div
           style={{
