@@ -202,7 +202,7 @@ const data_year = {
 
 
 
-export default function ChartTemplate() {
+export default function StatisticFacility() {
   const [optionValue, setOptionValue]= useState('option1')
 
   function changeChart(event) {

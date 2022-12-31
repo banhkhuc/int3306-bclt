@@ -22,14 +22,14 @@ import { loginApi } from "../api/accountApi";
 import { useFormik } from "formik";
 import * as yup from "yup";
 import { useNavigate } from "react-router-dom";
-// import { UserContext } from "../stores";
+import { UserContext } from "../stores";
 
 const CFaUserAlt = chakra(FaUserAlt);
 const CFaLock = chakra(FaLock);
 
 const Login = () => {
   const [showPassword, setShowPassword] = useState(false);
-  // const [userState, userDispatch] = useContext(UserContext);
+  const userDispatch = useContext(UserContext)[1];
   const handleShowClick = () => setShowPassword(!showPassword);
 
   let navigate = useNavigate();
@@ -66,13 +66,17 @@ const Login = () => {
         // console.log("token", response.data.token);
         localStorage.setItem("token", response.data.token);
         const {
+          FacilityId,
           Facility: { type },
+          account,
+          email,
+          fullName,
         } = response.data.user;
         sessionStorage.setItem("userRole", type);
-        // userDispatch({
-        //   type: "login",
-        //   payload: { FacilityId, type, account, email, fullName },
-        // });
+        userDispatch({
+          type: "login",
+          payload: { FacilityId, type, account, email, fullName },
+        });
         setTimeout(() => handleNavigate(type), 2000);
       } else if (response.status === 404) {
         console.log("login error", response);

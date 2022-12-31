@@ -26,8 +26,6 @@ const UserStore = ({ children }) => {
 
   const [userState, userDispatch] = useReducer(UserReducer, initialState);
 
-  console.log(userState);
-
   return (
     <UserContext.Provider value={[userState, userDispatch]}>
       {children}

@@ -185,7 +185,7 @@ const data_warranty = {
 };
 
 
-export default function ChartTemplate() {
+export default function StatisticAdmin() {
   const [optionValue, setOptionValue]= useState('option1')
 
   function changeChart(event) {
