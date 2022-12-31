@@ -34,24 +34,24 @@ const LinkItems_Admin = [
     href: `/manage-accounts`,
   },
   { name: "Quản lý cơ sở", href: "/manage-factory" },
-  { name: "Quản lý thống kê", href: "" },
+  { name: "Quản lý thống kê", href: "/statistic-admin" },
 ];
 
 const LinkItems_Production_Factory = [
   { name: "Quản lý kho", href: "facility/manage-store" },
   { name: "Quản lý sản phẩm lỗi", href: "/facility/manage-error-product" },
-  { name: "Quản lý thống kê", href: "" },
+  { name: "Quản lý thống kê", href: "/statistic-facility" },
 ];
 
 const LinkItems_Distribution_Agent = [
   { name: "Quản lý kho", href: "" },
   { name: "Quản lý bảo hành", href: "" },
-  { name: "Quản lý thống kê", href: "" },
+  { name: "Quản lý thống kê", href: "/statistic-agent" },
 ];
 
 const LinkItems_Service_Center = [
   { name: "Quản lý bảo hành", href: "/manage-guarantee" },
-  { name: "Quản lý thống kê", href: "" },
+  { name: "Quản lý thống kê", href: "/statistic-warranty" },
 ];
 
 const LinkItemsService = () => {

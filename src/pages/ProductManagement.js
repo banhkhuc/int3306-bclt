@@ -112,7 +112,7 @@ const ProductManagement = () => {
               marginLeft: "20px",
             }}
           >
-            Danh sách sản phẩm
+            Danh sách sản phẩm (Chỉ là giao diện chưa có api gì hết)
           </h2>
           <Button
             leftIcon={<AddIcon />}
