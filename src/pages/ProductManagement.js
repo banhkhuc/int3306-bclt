@@ -34,7 +34,7 @@ import {
   Select,
   TableContainer,
 } from "@chakra-ui/react";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { StyleSheet, Text, View } from "react-native";
 import {
   PhoneIcon,
@@ -45,13 +45,16 @@ import {
 } from "@chakra-ui/icons";
 import { useNavigate } from "react-router-dom";
 
-const productData = [];
-
 const ProductManagement = () => {
   // using for checked Item
   const [checkedItems, setCheckedItems] = React.useState([false, false]);
   const allChecked = checkedItems.every(Boolean);
   const isIndeterminate = checkedItems.some(Boolean) && !allChecked;
+  const [productData, setProductData] = useState([]);
+
+  useEffect(() => {
+    setProductData([]);
+  }, []);
 
   // define Style for each
   const styles = StyleSheet.create({
@@ -94,19 +97,6 @@ const ProductManagement = () => {
 
   return (
     <div className="">
-      <h1
-        style={{
-          marginTop: "10px",
-          marginBottom: "10px",
-          display: "flex",
-          alignItems: "center",
-          justifyContent: "center",
-          fontWeight: "700",
-          fontSize: "36px",
-        }}
-      >
-        Manage Products
-      </h1>
       <ChakraProvider>
         <div
           style={{

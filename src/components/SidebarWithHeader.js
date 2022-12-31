@@ -1,4 +1,4 @@
-import React, { ReactNode } from "react";
+import React, { ReactNode, useContext } from "react";
 import {
   IconButton,
   Avatar,
@@ -13,28 +13,16 @@ import {
   DrawerContent,
   Text,
   useDisclosure,
-  BoxProps,
-  FlexProps,
   Menu,
   MenuButton,
-  MenuDivider,
   MenuItem,
   MenuList,
-  Button,
 } from "@chakra-ui/react";
-import {
-  FiHome,
-  FiTrendingUp,
-  FiCompass,
-  FiStar,
-  FiSettings,
-  FiMenu,
-  FiBell,
-  FiChevronDown,
-} from "react-icons/fi";
+import { FiMenu, FiBell, FiChevronDown } from "react-icons/fi";
 import { IconType } from "react-icons";
 import { ReactText } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
+import { UserContext } from "../stores";
 
 const LinkItems_Admin = [
   {
@@ -178,10 +166,27 @@ const SidebarContent = ({ onClose, ...rest }) => {
 
 const MobileNav = ({ onOpen, ...rest }) => {
   let navigate = useNavigate();
+  const [userState, userDispatch] = useContext(UserContext);
   const handleLogout = () => {
     sessionStorage.removeItem("userRole");
+    userDispatch({ type: "logout" });
     navigate("/login");
   };
+
+  const getTitle = () => {
+    switch (userState.type) {
+      case "produce":
+        return "Cơ sở sản xuất";
+      case "distribute":
+        return "Đại lý phân phối";
+      case "guarantee":
+        return "Trung tâm bảo hành";
+      default:
+        return "admin";
+    }
+  };
+
+  const title = getTitle();
 
   return (
     <Flex
@@ -244,11 +249,11 @@ const MobileNav = ({ onOpen, ...rest }) => {
                 >
                   <Text fontSize="sm">
                     {/* account name */}
-                    Justina Clark
+                    {}
                   </Text>
                   <Text fontSize="xs" color="gray.600">
                     {/* actor */}
-                    Admin
+                    {title}
                   </Text>
                 </VStack>
                 <Box display={{ base: "none", md: "flex" }}>
@@ -261,9 +266,6 @@ const MobileNav = ({ onOpen, ...rest }) => {
               bg={useColorModeValue("white", "gray.900")}
               borderColor={useColorModeValue("gray.200", "gray.700")}
             >
-              <MenuItem>Profile</MenuItem>
-              <MenuItem>Settings</MenuItem>
-              <MenuDivider />
               <MenuItem onClick={handleLogout}>Sign out</MenuItem>
             </MenuList>
           </Menu>
