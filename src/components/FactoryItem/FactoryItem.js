@@ -3,7 +3,7 @@ import { useState } from "react";
 import EditFactory from "../EditFactory";
 
 const FactoryItem = ({ checkedItems, setCheckedItems, index, ...props }) => {
-  const { name, address, imageUrl } = props;
+  const { id, name, address } = props;
   const [isEditFactory, setIsEditFactory] = useState(false);
 
   const handleChecked = () => {
@@ -25,16 +25,7 @@ const FactoryItem = ({ checkedItems, setCheckedItems, index, ...props }) => {
         <Checkbox isChecked={checkedItems[index]} onChange={handleChecked} />
       </Th>
       <Th>
-        <AspectRatio maxW={"60px"} ratio={1} mr={"8px"}>
-          <Image
-            objectFit={"cover"}
-            borderRadius={"5px"}
-            src={
-              imageUrl ||
-              "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcStUA8ai6tKwZebp5iAZuNJo7_JFUblRVHzag&usqp=CAU"
-            }
-          />
-        </AspectRatio>
+        <Box whiteSpace={"normal"}>{id}</Box>
       </Th>
       <Th>
         <Box whiteSpace={"normal"}>{name}</Box>

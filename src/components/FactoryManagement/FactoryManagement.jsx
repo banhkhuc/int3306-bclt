@@ -13,7 +13,7 @@ const FactoryManagement = () => {
   };
 
   return (
-    <Tabs bgColor={"white"} p={["0", "16px"]} mt={["16px"]}>
+    <Tabs p={["0", "16px"]} mt={["16px"]}>
       <TabList>
         <Tab>Cơ sở sản xuất</Tab>
         <Tab>Đại lý phân phối</Tab>

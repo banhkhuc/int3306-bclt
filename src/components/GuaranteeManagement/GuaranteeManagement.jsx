@@ -3,7 +3,7 @@ import GuaranteeList from "./GuaranteeList";
 
 const GuaranteeManagement = () => {
   return (
-    <Box bgColor={"white"} p={["16px"]} mt={[0, "16px"]}>
+    <Box p={["16px"]} mt={[0, "16px"]}>
       <GuaranteeList />
     </Box>
   );

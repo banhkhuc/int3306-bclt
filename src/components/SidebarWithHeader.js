@@ -1,4 +1,4 @@
-import React, { ReactNode } from "react";
+import React, { ReactNode, useContext } from "react";
 import {
   IconButton,
   Avatar,
@@ -13,33 +13,20 @@ import {
   DrawerContent,
   Text,
   useDisclosure,
-  BoxProps,
-  FlexProps,
   Menu,
   MenuButton,
-  MenuDivider,
   MenuItem,
   MenuList,
-  Button,
 } from "@chakra-ui/react";
-import {
-  FiHome,
-  FiTrendingUp,
-  FiCompass,
-  FiStar,
-  FiSettings,
-  FiMenu,
-  FiBell,
-  FiChevronDown,
-} from "react-icons/fi";
+import { FiMenu, FiBell, FiChevronDown } from "react-icons/fi";
 import { IconType } from "react-icons";
 import { ReactText } from "react";
-import { Link } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
+import { UserContext } from "../stores";
 
 const LinkItems_Admin = [
-  { name: "Trang chủ", icon: FiHome, href: "" },
   {
-    name: "Quản lý mục sản phẩm",
+    name: "Danh sách dòng sản phẩm",
     href: "/manage-products",
   },
   {
@@ -47,56 +34,75 @@ const LinkItems_Admin = [
     href: `/manage-accounts`,
   },
   { name: "Quản lý cơ sở", href: "/manage-factory" },
-  { name: "Quản lý thống kê", href: "" },
+  { name: "Quản lý thống kê", href: "/statistic-admin" },
 ];
 
 const LinkItems_Production_Factory = [
-  { name: "Trang chủ", icon: FiHome, href: "" },
-  { name: "Quản lý kho", href: "" },
-  { name: "Quản lý sản phẩm lỗi", href: "" },
-  { name: "Quản lý thống kê", href: "" },
+  { name: "Quản lý kho", href: "facility/manage-store" },
+  { name: "Quản lý sản phẩm lỗi", href: "/facility/manage-error-product" },
+  { name: "Quản lý thống kê", href: "/statistic-facility" },
 ];
 
 const LinkItems_Distribution_Agent = [
-  { name: "Trang chủ", icon: FiHome, href: "" },
   { name: "Quản lý kho", href: "" },
   { name: "Quản lý bảo hành", href: "" },
-  { name: "Quản lý thống kê", href: "" },
+  { name: "Quản lý thống kê", href: "/statistic-agent" },
 ];
 
 const LinkItems_Service_Center = [
-  { name: "Trang chủ", icon: FiHome, href: "" },
-  { name: "Quản lý bảo hành", href: "" },
-  { name: "Quản lý sản phẩm lỗi", href: "" },
-  { name: "Quản lý thống kê", href: "" },
+  { name: "Quản lý bảo hành", href: "/manage-guarantee" },
+  { name: "Quản lý thống kê", href: "/statistic-warranty" },
 ];
+
+const LinkItemsService = () => {
+  switch (sessionStorage.getItem("userRole")) {
+    case "admin":
+      return LinkItems_Admin;
+    case "produce":
+      return LinkItems_Production_Factory;
+    case "distribute":
+      return LinkItems_Distribution_Agent;
+    case "guarantee":
+      return LinkItems_Service_Center;
+    default:
+      return LinkItems_Admin;
+      break;
+  }
+};
 
 export default function SidebarWithHeader({ children }) {
   const { isOpen, onOpen, onClose } = useDisclosure();
+  const location = useLocation();
   return (
     <Box minH="100vh" bg={useColorModeValue("gray.100", "gray.900")}>
-      <SidebarContent
-        onClose={() => onClose}
-        display={{ base: "none", md: "block" }}
-      />
-      <Drawer
-        autoFocus={false}
-        isOpen={isOpen}
-        placement="left"
-        onClose={onClose}
-        returnFocusOnClose={false}
-        onOverlayClick={onClose}
-        size="full"
-      >
-        <DrawerContent>
-          <SidebarContent onClose={onClose} />
-        </DrawerContent>
-      </Drawer>
-      {/* mobilenav */}
-      <MobileNav onOpen={onOpen} />
-      <Box ml={{ base: 0, md: 60 }} p="4">
-        {children}
-      </Box>
+      {location.pathname === "/" || location.pathname === "/login" ? (
+        children
+      ) : (
+        <>
+          <SidebarContent
+            onClose={() => onClose}
+            display={{ base: "none", md: "block" }}
+          />
+          <Drawer
+            autoFocus={false}
+            isOpen={isOpen}
+            placement="left"
+            onClose={onClose}
+            returnFocusOnClose={false}
+            onOverlayClick={onClose}
+            size="full"
+          >
+            <DrawerContent>
+              <SidebarContent onClose={onClose} />
+            </DrawerContent>
+          </Drawer>
+          {/* mobilenav */}
+          <MobileNav onOpen={onOpen} />
+          <Box ml={{ base: 0, md: 60 }} p="4">
+            {children}
+          </Box>{" "}
+        </>
+      )}
     </Box>
   );
 }
@@ -121,7 +127,7 @@ const SidebarContent = ({ onClose, ...rest }) => {
       </Flex>
 
       {/* LinkItems - actor */}
-      {LinkItems_Admin.map((link) => (
+      {LinkItemsService().map((link) => (
         <Link
           to={link.href}
           // style={{ textDecoration: "none" }}
@@ -159,6 +165,29 @@ const SidebarContent = ({ onClose, ...rest }) => {
 };
 
 const MobileNav = ({ onOpen, ...rest }) => {
+  let navigate = useNavigate();
+  const [userState, userDispatch] = useContext(UserContext);
+  const handleLogout = () => {
+    sessionStorage.removeItem("userRole");
+    userDispatch({ type: "logout" });
+    navigate("/login");
+  };
+
+  const getTitle = () => {
+    switch (userState.type) {
+      case "produce":
+        return "Cơ sở sản xuất";
+      case "distribute":
+        return "Đại lý phân phối";
+      case "guarantee":
+        return "Trung tâm bảo hành";
+      default:
+        return "admin";
+    }
+  };
+
+  const title = getTitle();
+
   return (
     <Flex
       ml={{ base: 0, md: 60 }}
@@ -220,11 +249,11 @@ const MobileNav = ({ onOpen, ...rest }) => {
                 >
                   <Text fontSize="sm">
                     {/* account name */}
-                    Justina Clark
+                    {}
                   </Text>
                   <Text fontSize="xs" color="gray.600">
                     {/* actor */}
-                    Admin
+                    {title}
                   </Text>
                 </VStack>
                 <Box display={{ base: "none", md: "flex" }}>
@@ -237,10 +266,7 @@ const MobileNav = ({ onOpen, ...rest }) => {
               bg={useColorModeValue("white", "gray.900")}
               borderColor={useColorModeValue("gray.200", "gray.700")}
             >
-              <MenuItem>Profile</MenuItem>
-              <MenuItem>Settings</MenuItem>
-              <MenuDivider />
-              <MenuItem>Sign out</MenuItem>
+              <MenuItem onClick={handleLogout}>Sign out</MenuItem>
             </MenuList>
           </Menu>
         </Flex>
