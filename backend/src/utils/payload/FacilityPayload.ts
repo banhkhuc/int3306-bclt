@@ -1,8 +1,8 @@
 interface FacilityPayload {
-    name: string;
-    type: string;
-    address?: string;
-    imageUrl?: string;
+	name: string;
+	email?: string;
+	imageUrl?: string;
+	type: string;
 }
 
 export default FacilityPayload;

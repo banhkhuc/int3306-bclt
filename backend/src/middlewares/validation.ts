@@ -3,12 +3,12 @@ import { ApiResponse } from 'utils/rest/ApiResponse';
 import jwt from 'jsonwebtoken';
 import config from '../config';
 import ResponeCodes from 'utils/constants/ResponeCode';
-import User, { UserModel } from 'databases/models/User';
 import { Facility } from 'databases/models';
 import FacilityType from 'utils/constants/FacilityType';
+import { FacilityModel } from 'databases/models/Facility';
 
 interface IToken {
-	userId: number;
+	facilityId: number;
 }
 
 const verifyToken = (req: Request, res: Response, next: NextFunction) => {
@@ -24,11 +24,9 @@ const verifyToken = (req: Request, res: Response, next: NextFunction) => {
 			return new ApiResponse(err, 'Unauthorized!', ResponeCodes.UNAUTHORIZED).send(res);
 		}
 
-		req.user = await User.findByPk(decoded.userId, {
-			include: Facility
-		});
+		req.facility = await Facility.findByPk(decoded.facilityId);
 
-		if (!req.user) {
+		if (!req.facility) {
 			return new ApiResponse(err, 'Unauthorized!', ResponeCodes.UNAUTHORIZED).send(res);
 		}
 		next();
@@ -36,8 +34,8 @@ const verifyToken = (req: Request, res: Response, next: NextFunction) => {
 };
 
 const verifyAdmin = async (req: Request, res: Response, next: NextFunction) => {
-	const user: UserModel = req.user;
-	const facilityType = user.Facility.type;
+	const facility: FacilityModel = req.facility;
+	const facilityType = facility.type;
 
 	if (facilityType !== FacilityType.ADMIN) {
 		return new ApiResponse(null, 'Not permission!', ResponeCodes.UNAUTHORIZED).send(res);
@@ -46,8 +44,8 @@ const verifyAdmin = async (req: Request, res: Response, next: NextFunction) => {
 };
 
 const verifyProduce = async (req: Request, res: Response, next: NextFunction) => {
-	const user: UserModel = req.user;
-	const facilityType = user.Facility.type;
+	const facility: FacilityModel = req.facility;
+	const facilityType = facility.type;
 
 	if (facilityType !== FacilityType.PRODUCE) {
 		return new ApiResponse(null, 'Not permission!', ResponeCodes.UNAUTHORIZED).send(res);
@@ -56,8 +54,8 @@ const verifyProduce = async (req: Request, res: Response, next: NextFunction) =>
 };
 
 const verifyDistribute = async (req: Request, res: Response, next: NextFunction) => {
-	const user: UserModel = req.user;
-	const facilityType = user.Facility.type;
+	const facility: FacilityModel = req.facility;
+	const facilityType = facility.type;
 
 	if (facilityType !== FacilityType.DISTRIBUTE) {
 		return new ApiResponse(null, 'Not permission!', ResponeCodes.UNAUTHORIZED).send(res);
@@ -66,8 +64,8 @@ const verifyDistribute = async (req: Request, res: Response, next: NextFunction)
 };
 
 const verifyGuarantee = async (req: Request, res: Response, next: NextFunction) => {
-	const user: UserModel = req.user;
-	const facilityType = user.Facility.type;
+	const facility: FacilityModel = req.facility;
+	const facilityType = facility.type;
 
 	if (facilityType !== FacilityType.GUARANTEE) {
 		return new ApiResponse(null, 'Not permission!', ResponeCodes.UNAUTHORIZED).send(res);

@@ -14,7 +14,7 @@ import { ExportOrderPayload, ExportGuaranteePayload, ImportProductPayload } from
 const getProducts = async (req: Request) => {
 	try {
 		const { offset, limit, order } = paginate(req);
-		const distributeId = req.user.Facility.id;
+		const distributeId = req.facility.id;
 
 		const products = await Product.findAndCountAll({
 			where: {
@@ -74,7 +74,7 @@ const importProduct = async (req: Request) => {
 		let message: string;
 		let status: number;
 
-		const distributeId = req.user.Facility.id;
+		const distributeId = req.facility.id;
 		const importData: ImportProductPayload = req.body;
 		const { products, distributeDate } = importData;
 
@@ -134,7 +134,7 @@ const exportOrder = async (req: Request) => {
 		let message: string;
 		let status: number;
 
-		const distributeId = req.user.Facility.id;
+		const distributeId = req.facility.id;
 		const exportData: ExportOrderPayload = req.body;
 
 		if (!exportData.productCode || !exportData.orderName || !exportData.orderDate) {
@@ -181,7 +181,7 @@ const exportOrder = async (req: Request) => {
 					if (statistic[0] != null) wh = statistic[0].warehouse - 1;
 					let new_statistic = await Statistics.create({
 						time: t,
-						warehouse: wh ,
+						warehouse: wh,
 						work: 1,
 						facilityId: produceId,
 						productLineModel: product.productLineModel
@@ -215,7 +215,7 @@ const exportGuarantee = async (req: Request) => {
 		let message: string;
 		let status: number;
 
-		const distributeId = req.user.Facility.id;
+		const distributeId = req.facility.id;
 		const exportData: ExportGuaranteePayload = req.body;
 		const { productCode, insuranceDate, guaranteeId, error } = exportData;
 		if (!productCode || !guaranteeId || !insuranceDate) {

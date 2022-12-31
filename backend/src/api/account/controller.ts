@@ -3,15 +3,6 @@ import ResponeCodes from 'utils/constants/ResponeCode';
 import { ApiResponse } from 'utils/rest/ApiResponse';
 import * as service from './service';
 
-// POST: /create
-const createAccount = async (req: Request, res: Response) => {
-	try {
-		const result = await service.createAccount(req.body);
-		return new ApiResponse(result.data, result.message, result.status).send(res);
-	} catch (error) {
-		return new ApiResponse(error.message, "Couldn't create account.", ResponeCodes.ERROR).send(res);
-	}
-};
 
 // POST: /login
 const login = async (req: Request, res: Response) => {
@@ -23,4 +14,15 @@ const login = async (req: Request, res: Response) => {
 	}
 };
 
-export { createAccount, login};
+// GET: /me
+const getMe = async (req: Request, res: Response) => {
+	try {
+		const result = await service.getMe(req.facility);
+		const { data, message, status } = result;
+		return new ApiResponse(data, message, status).send(res);
+	} catch (error) {
+		return new ApiResponse(error.message, "Couldn't get info.", ResponeCodes.ERROR).send(res);
+	}
+};
+
+export { login, getMe };

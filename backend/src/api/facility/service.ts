@@ -1,11 +1,13 @@
+import bcrypt from 'bcrypt';
 import { Request } from 'express';
 import ResponeCodes from 'utils/constants/ResponeCode';
 import paginate from 'utils/helpers/pagination';
 import { Op } from 'sequelize';
-import { Facility, User } from 'databases/models';
+import { Facility } from 'databases/models';
 import { FacilityModel } from 'databases/models/Facility';
 import FacilityType from 'utils/constants/FacilityType';
-import { FacilityPayload } from 'utils/payload';
+import { FacilityInfo, FacilityPayload } from 'utils/payload';
+import { generatePassword, generateAccount, generateToken } from 'utils/helpers/generate';
 
 const getFacilities = async (req: Request) => {
 	try {
@@ -21,7 +23,6 @@ const getFacilities = async (req: Request) => {
 					}
 				]
 			},
-			include: User,
 			offset,
 			limit,
 			order: [order]
@@ -63,9 +64,7 @@ const getFacilityById = async (req: Request) => {
 			message = 'Invalid identifier.';
 			status = ResponeCodes.BAD_REQUEST;
 		} else {
-			const facility = await Facility.findByPk(id, {
-				include: User
-			});
+			const facility = await Facility.findByPk(id);
 			if (!facility) {
 				message = 'Not found.';
 				status = ResponeCodes.NOT_FOUND;
@@ -86,47 +85,35 @@ const getFacilityById = async (req: Request) => {
 	}
 };
 
-const addFacility = async (req: Request) => {
+const addFacility = async (newFacility: FacilityPayload) => {
 	try {
-		let data: FacilityModel;
-		let message: string;
-		let status: number;
-
-		const newFacility: FacilityPayload = req.body;
-
-		if (
-			!newFacility.name ||
-			(newFacility.type !== FacilityType.PRODUCE &&
-				newFacility.type !== FacilityType.DISTRIBUTE &&
-				newFacility.type !== FacilityType.GUARANTEE)
-		) {
-			message = 'Invalid payload.';
-			status = ResponeCodes.BAD_REQUEST;
+		if (!newFacility.name || !newFacility.type) {
+			return {
+				message: 'Invalid payload.',
+				status: ResponeCodes.BAD_REQUEST
+			};
 		} else {
-			const [facility, created] = await Facility.findOrCreate({
-				where: {
-					address: newFacility.address
-				},
-				defaults: {
-					...newFacility
-				}
+			const password = generatePassword();
+			const hashPassword = bcrypt.hashSync(password, 10);
+			const account = await generateAccount(newFacility.type);
+
+			const facility = await Facility.create({
+				...newFacility,
+				password: hashPassword,
+				account
 			});
 
-			if (created) {
-				data = facility;
-				message = 'Add successfully!';
-				status = ResponeCodes.CREATED;
-			} else {
-				message = 'Facility exists.';
-				status = ResponeCodes.OK;
-			}
-		}
+			const token = generateToken(facility.id);
 
-		return {
-			data,
-			message,
-			status
-		};
+			return {
+				data: {
+					facility,
+					token
+				},
+				message: 'Create successfully!',
+				status: ResponeCodes.OK
+			};
+		}
 	} catch (error) {
 		throw error;
 	}
@@ -163,4 +150,42 @@ const deleteFacility = async (req: Request) => {
 	}
 };
 
-export { getFacilities, getAllFacilities, getFacilityById, addFacility, deleteFacility };
+const changeFacilityInfo = async (req: Request) => {
+	try {
+		let data;
+		let message: string;
+		let status: number;
+
+		const facilityId = req.params.id;
+		const facilityInfo: FacilityInfo = req.body;
+
+		const facility = await Facility.findByPk(facilityId);
+
+		const password = facilityInfo.password ? bcrypt.hashSync(facilityInfo.password, 10) : facility.password;
+
+		await Facility.update(
+			{
+				...facilityInfo,
+				password
+			},
+			{
+				where: {
+					id: facilityId
+				}
+			}
+		);
+
+		message = 'Update facility successfully!';
+		status = ResponeCodes.OK;
+
+		return {
+			data,
+			message,
+			status
+		};
+	} catch (error) {
+		throw error;
+	}
+};
+
+export { getFacilities, getAllFacilities, getFacilityById, addFacility, deleteFacility, changeFacilityInfo };
